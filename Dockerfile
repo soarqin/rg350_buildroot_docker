@@ -4,10 +4,12 @@ RUN yum update -y && yum install -y autoconf automake bc bison bzip2 flex fontco
 
 FROM dev as builder
 RUN git clone https://github.com/tonyjih/RG350_buildroot /src/buildroot
+COPY rg350_defconfig /src/buildroot/configs/
 WORKDIR /src/buildroot
-RUN make rg350_defconfig && sed -i -e 's|BR2_HOST_DIR="$(BASE_DIR)/host"|BR2_HOST_DIR="/opt/gcw0-toolchain"|g' .config && make
+RUN make rg350_defconfig && make
 
 FROM dev
 WORKDIR /root
 ENV PATH="/opt/gcw0-toolchain/usr/bin:$PATH"
 COPY --from=builder /opt/gcw0-toolchain /opt/gcw0-toolchain
+CMD ["/usr/bin/bash"]
