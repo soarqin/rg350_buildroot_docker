@@ -1,1 +1,1 @@
-# rg350_buildroot_docker
+Dockerfile for building RG-350 toolchain
